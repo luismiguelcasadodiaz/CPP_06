@@ -21,6 +21,8 @@
 
 #include <string>
 #include <iostream>
+#include <ostream>
+#include <cctype>
 
 class ScalarConverter
 {
@@ -31,5 +33,17 @@ class ScalarConverter
 		~ScalarConverter( void ) ;
 		ScalarConverter( const ScalarConverter & other ) ;
 		ScalarConverter & operator=( const ScalarConverter & other ) ;
+
+		static bool isCharc( char c) ;
+		static bool isEscSeq( char c) ;
+		static bool isDigit( char c) ;
+		static bool isSign( char c) ;
+		static bool isDigitSeq( const std::string & str ) ;
+		static bool isFloatPoint( const std::string & str ) ;
+		static bool isChar ( const std::string & str ) ;
+		static bool isInt ( const std::string & str ) ;
+		static bool isFloat ( const std::string & str ) ;
+		static bool isDouble ( const std::string & str ) ;
+		
 };
 #endif
