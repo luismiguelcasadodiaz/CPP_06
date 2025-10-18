@@ -20,8 +20,9 @@
 //# define COLOR_ss		"\033[38;5;143m"         //DARK_YELLOW
 
 #include <string>
+#include <iostream>
 
-Class ScalarConverter
+class ScalarConverter
 {
 	public:
 			static void convert(const std::string & s);
