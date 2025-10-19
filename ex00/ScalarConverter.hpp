@@ -20,6 +20,10 @@
 //# define COLOR_ss		"\033[38;5;143m"         //DARK_YELLOW
 
 #include <string>
+#include <cstring>
+#include <cstdlib>
+#include <limits>
+#include <cerrno>
 #include <iostream>
 #include <ostream>
 #include <cctype>
@@ -44,6 +48,13 @@ class ScalarConverter
 		static bool isInt ( const std::string & str ) ;
 		static bool isFloat ( const std::string & str ) ;
 		static bool isDouble ( const std::string & str ) ;
+		static int  str2Int ( const std::string & str, bool & isValid ) ;
+		static float  str2Flo ( const std::string & str, bool & isValid ) ;
+		static double  str2Dou ( const std::string & str, bool & isValid ) ;
+		static void showChr (const std::string & str ) ;
+		static void showInt (const std::string & str ) ;
+		static void showFlo (const std::string & str ) ;
+		static void showDou (const std::string & str ) ;
 		
 };
 #endif

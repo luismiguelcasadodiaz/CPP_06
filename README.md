@@ -5,9 +5,13 @@ C++ cast practice
 
 A class has a class's member named convert with a string as argument. 
 
-The member analyses the string to identify which data type it represents.
+The member analyses the string to identify which data type it represents. 
+I do that with the support of BNF syntax.
 
-Once identified cast the string to the right type and prints its value
+Once identified the type, calculate numeric values with strtol() and strtod()
+and control MIN/MAX limits to detect overflows.
+
+
 
 
 
@@ -159,3 +163,8 @@ bnf<double-literal> ::= <sign>? <floating-point>
 |?|Optional|0 or 1|<sign>? → can be empty or one sign|
 |+|One or more|1 or more|<digit>+ → 5 or 42 or 123|
 |*|Zero or more|0 or more|<digit>* → empty or 5 or 42|
+
+
+
+# what i read
+(floats versus doubles)[https://www.freecodecamp.org/espanol/news/double-vs-float-en-c-la-diferencia-entre-floats-y-doubles/]
