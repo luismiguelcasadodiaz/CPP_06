@@ -21,6 +21,7 @@
 
 #include <string>
 #include <cstring>
+#include <sstream>
 #include <cstdlib>
 #include <limits>
 #include <cerrno>
@@ -51,10 +52,16 @@ class ScalarConverter
 		static int  str2Int ( const std::string & str, bool & isValid ) ;
 		static float  str2Flo ( const std::string & str, bool & isValid ) ;
 		static double  str2Dou ( const std::string & str, bool & isValid ) ;
-		static void showChr (const std::string & str ) ;
-		static void showInt (const std::string & str ) ;
-		static void showFlo (const std::string & str ) ;
-		static void showDou (const std::string & str ) ;
+		static void showChr ( const std::string & str ) ;
+		static void showInt ( const std::string & str ) ;
+		static void showFlo ( const std::string & str ) ;
+		static void showDou ( const std::string & str ) ;
+		static void showAll ( void ) ;
+
+		static std::string charstr ; 
+		static std::string intstr ;
+		static std::string floatstr ;
+		static std::string doublestr ;
 		
 };
 #endif

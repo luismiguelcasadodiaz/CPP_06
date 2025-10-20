@@ -50,10 +50,9 @@ void ScalarConverter::convert(const std::string & s)
 	} else if ( isDouble(s) ) {
 		showDou(s) ;
 	} else {
+		std::cout << "No type detected" << std::endl;
 	}
-
-
-
+	ScalarConverter::showAll( );
 }
 
 
@@ -291,19 +290,25 @@ void ScalarConverter::showInt (const std::string & str )
 	int r_int = ScalarConverter::str2Int(str, isValid) ;
 	if (isValid)
 	{
-		std::cout << "Int    :" << r_int << std::endl ;
-		std::cout << "Float  :" << static_cast<float>(r_int) << std::endl ;
-		std::cout << "Double :" << static_cast<double>(r_int) << std::endl ;
+		std::stringstream ss_int ;
+		std::stringstream ss_flt ;
+		std::stringstream ss_dbl ;
+		ss_int << r_int;
+		ScalarConverter::intstr = ss_int.str();
+		ss_flt << static_cast<float>(r_int) ;
+		ScalarConverter::floatstr = ss_flt.str() ;
+		ss_dbl << static_cast<double>(r_int) ;
+		ScalarConverter::doublestr = ss_dbl.str() ;
 	} else {
-		std::cout << "Int    :Impossible" << std::endl ;
 		double r_dou = ScalarConverter::str2Dou(str, isValid) ;
 		if (isValid) 
 		{
-		std::cout << "Float  :" << static_cast<float>(r_dou) << std::endl ;
-		std::cout << "Double :" << r_dou << std::endl ;
-		} else {
-			std::cout << "Float  :Impossible" << std::endl ;
-			std::cout << "Double :Impossible" << std::endl ;
+			std::stringstream ss_flt ;
+			std::stringstream ss_dbl ;
+			ss_flt << static_cast<float>(r_dou) ;
+			ScalarConverter::floatstr = ss_flt.str() ;
+			ss_dbl << r_dou ;
+			ScalarConverter::doublestr  = ss_dbl.str() ;
 		}
 	}
 
@@ -317,4 +322,18 @@ void ScalarConverter::showDou (const std::string & str )
 {
 	(void)str;
 		std::cout << "Double :Not implemented yet" << std::endl ;
+}
+
+
+std::string ScalarConverter::charstr = "Impossible"; 
+std::string ScalarConverter::intstr = "Impossible";
+std::string ScalarConverter::floatstr = "Impossible";
+std::string ScalarConverter::doublestr = "Impossible";
+
+void ScalarConverter::showAll()
+{
+    std::cout << "char  : " << charstr << std::endl;
+    std::cout << "int   : " << intstr << std::endl;
+    std::cout << "float : " << floatstr << std::endl;
+    std::cout << "double: " << doublestr << std::endl;
 }
