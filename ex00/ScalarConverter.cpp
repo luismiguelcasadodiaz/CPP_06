@@ -258,13 +258,57 @@ int  ScalarConverter::str2Int ( const std::string & str, bool & isValid )
 }
 float  ScalarConverter::str2Flo ( const std::string & str, bool & isValid )
 {
-	(void)str;
-	(void)isValid;
-	return 0;
+	if (!str.compare("nanf"))
+	{
+		isValid = true;
+		return std::numeric_limits<float>::quiet_NaN();
+	}
+	if (!str.compare("inff") || !str.compare("+inff"))
+	{
+		isValid = true;
+		return std::numeric_limits<float>::infinity();
+	}
+	if (!str.compare("-inff"))
+	{
+		isValid = true;
+		return -std::numeric_limits<float>::infinity();
+	}
+	char * end ;
+	errno = 0 ;
+	double r_dou = std::strtod( str.c_str(), &end) ;
+	double r_dou_abs = std::fabs(r_dou) ;
+	if ( ( errno == ERANGE ) ||
+		 ( (r_dou_abs != 0) &&
+		   ( ( r_dou_abs < std::numeric_limits<float>::min() ) || 
+		     ( std::numeric_limits<float>::max() < r_dou_abs )
+		   )
+		 )
+		)
+	{
+		isValid = false ;
+		return 0 ;
+	}
+	isValid = true ;
+	return static_cast<float>(r_dou) ;	
 }
 double  ScalarConverter::str2Dou ( const std::string & str, bool & isValid )
 {
-	char * end ;
+	if (!str.compare("nan"))
+	{
+		isValid = true;
+		return std::numeric_limits<double>::quiet_NaN();
+	}
+	if (!str.compare("inf") || !str.compare("+inf"))
+	{
+		isValid = true;
+		return std::numeric_limits<double>::infinity();
+	}
+	if (!str.compare("-inf"))
+	{
+		isValid = true;
+		return -std::numeric_limits<double>::infinity();
+	}
+		char * end ;
 	errno = 0 ;
 	long long r_llon = std::strtod( str.c_str(), &end) ;
 	if ( ( errno == ERANGE ) ||
@@ -290,6 +334,14 @@ void ScalarConverter::showInt (const std::string & str )
 	int r_int = ScalarConverter::str2Int(str, isValid) ;
 	if (isValid)
 	{
+		if ((32 <= r_int) && (r_int < 256) )
+		{
+			std::stringstream ss_char ;
+			ss_char << static_cast<unsigned char>(r_int) ;
+			ScalarConverter::charstr = ss_char.str() ;
+		} else {
+			ScalarConverter::charstr = "Non displayable" ;
+		}
 		std::stringstream ss_int ;
 		std::stringstream ss_flt ;
 		std::stringstream ss_dbl ;
@@ -305,7 +357,7 @@ void ScalarConverter::showInt (const std::string & str )
 		{
 			std::stringstream ss_flt ;
 			std::stringstream ss_dbl ;
-			ss_flt << static_cast<float>(r_dou) ;
+			ss_flt << static_cast<float>(r_dou) << "f" ;
 			ScalarConverter::floatstr = ss_flt.str() ;
 			ss_dbl << r_dou ;
 			ScalarConverter::doublestr  = ss_dbl.str() ;
@@ -315,13 +367,81 @@ void ScalarConverter::showInt (const std::string & str )
 }
 void ScalarConverter::showFlo (const std::string & str ) 
 {
-	(void)str;
-		std::cout << "Float  :Not Implemented Yet" << std::endl ;
+	bool isValid = false;
+	float r_flt = ScalarConverter::str2Flo(str, isValid) ;
+	if (isValid)
+	{
+		if ((32 <= r_flt) && (r_flt < 256) )
+		{
+			std::stringstream ss_char ;
+			ss_char << static_cast<unsigned char>(r_flt) ;
+			ScalarConverter::charstr = ss_char.str() ;
+		} else {
+			ScalarConverter::charstr = "Non displayable" ;
+		}
+		std::stringstream ss_flt ; 
+		ss_flt  << std::setprecision(3) << r_flt << "f" ;
+		ScalarConverter::floatstr = ss_flt.str() ;
+		double r_dou = static_cast<double>(r_flt) ;
+		std::stringstream ss_dbl ;
+		ss_dbl  << std::setprecision(3) << r_dou ;
+		ScalarConverter::doublestr = ss_dbl.str() ;
+		// does this float fits in a int?
+		if ( ( (std::numeric_limits<int>::min() <= r_flt) && 
+			   (r_flt <= std::numeric_limits<int>::max())
+			 )
+		   )
+		{
+			std::stringstream ss_int ;
+			ss_int << static_cast<int>(r_flt);
+			ScalarConverter::floatstr = ss_int.str() ;
+		}
+		
+	}
+
 }
 void ScalarConverter::showDou (const std::string & str ) 
 {
-	(void)str;
-		std::cout << "Double :Not implemented yet" << std::endl ;
+	bool isValid = false ;
+	double r_dou = ScalarConverter::str2Dou(str, isValid) ;
+	if (isValid)
+	{
+
+		if ((32 <= r_dou) && (r_dou < 256) )
+		{
+			std::stringstream ss_char ;
+			ss_char << std::setprecision(3) << static_cast<unsigned char>(r_dou) ;
+			ScalarConverter::charstr = ss_char.str() ;
+		} else {
+			ScalarConverter::charstr = "Non displayable" ;
+		}
+		std::stringstream ss_dbl ;
+		ss_dbl << static_cast<double>(r_dou) ;
+		ScalarConverter::doublestr = ss_dbl.str() ;
+		double dou_abs = std::fabs(r_dou) ;
+		// does this double fits in a float?
+		if ( (dou_abs == 0) || 
+			 ( (std::numeric_limits<float>::min() <= dou_abs) && 
+			   (dou_abs <= std::numeric_limits<float>::max())
+			 )
+		   )
+		{
+			std::stringstream ss_flt ;
+			ss_flt  << std::setprecision(3) << static_cast<float>(r_dou) << "f";
+			ScalarConverter::floatstr = ss_flt.str() ;
+		}
+		// does this double fits in a int?
+		if ( ( (std::numeric_limits<int>::min() <= dou_abs) && 
+			   (dou_abs <= std::numeric_limits<int>::max())
+			 )
+		   )
+		{
+			std::stringstream ss_int ;
+			ss_int << static_cast<int>(r_dou);
+			ScalarConverter::floatstr = ss_int.str() ;
+		}
+		
+	}
 }
 
 

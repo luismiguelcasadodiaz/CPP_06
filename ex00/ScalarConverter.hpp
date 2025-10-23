@@ -24,9 +24,11 @@
 #include <sstream>
 #include <cstdlib>
 #include <limits>
+#include <cmath>
 #include <cerrno>
 #include <iostream>
 #include <ostream>
+#include <iomanip>
 #include <cctype>
 
 class ScalarConverter
