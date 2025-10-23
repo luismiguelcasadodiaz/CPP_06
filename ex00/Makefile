@@ -6,7 +6,7 @@
 #    By: luicasad <luicasad@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/30 13:07:33 by luicasad          #+#    #+#              #
-#    Updated: 2025/10/19 00:10:37 by luicasad         ###   ########.fr        #
+#    Updated: 2025/10/24 01:44:19 by luicasad         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,9 +42,9 @@ REQUIRED_DIRS	= $(OBJDIR)
 #                               COMPILER SETUP                                 #
 # ============================================================================ #
 CC 				= c++ -std=c++98
-CC 				= clang++ -std=c++98
+#CC 				= clang++ -std=c++98
 WRNFL			= -Wall -Wextra -Werror -Wshadow #-fsanitize=address
-DBGFL			= -g3  -pg
+DBGFL			= #-g3  -pg
 CFLGS			= $(DBGFL) $(WRNFL) -c 
 #HEADS			= -I$(INCDIR)
 LFLGS 			= #-fsanitize=address
