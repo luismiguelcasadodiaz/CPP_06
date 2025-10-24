@@ -1,7 +1,7 @@
 # CPP_06
 C++ cast practice
 
-## Description
+## Ex00 Conversion of scalar types
 
 A class has a class's member named convert with a string as argument. 
 
@@ -18,7 +18,7 @@ and control MIN/MAX limits to detect overflows.
 
 ### Parser definition
 
-Here's the BNF syntax for C++98 literals that you need to parse:
+Here's the BNF syntax for C++98 literals to parse:
 
 ### CHAR
 ```bnf
@@ -31,7 +31,6 @@ Examples: 'a', 'Z', '0', '\n', '\t'
 
 ```
 
-
 ### INT
 ```bnf
 bnf<int-literal> ::= <sign>? <digit-sequence>
@@ -40,7 +39,6 @@ bnf<int-literal> ::= <sign>? <digit-sequence>
 <digit>       ::= "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
 Examples: 0, 42, -42, +42, 2147483647
 ```
-
 
 ### FLOAT
 ```bnf
@@ -52,6 +50,7 @@ bnf<float-literal> ::= <sign>? <floating-point> "f"
                    | <digit-sequence>
 Examples: 0.0f, 42.0f, -4.2f, .5f, 42.f, +inff, -inff, nanf
 ```
+
 ### DOUBLE
 
 ```bnf
@@ -86,6 +85,7 @@ this includes all characters with ASCII codes from 32 (space) through 126 (tilde
 |\'	|Single Quote (′)	|39|	A literal single quote.|
 |\"	|Double Quote (")	|34|	A literal double quote.|
 
+
 ```bnf
 <escape-sequence> ::= "\n" | "\t" | "\r" | "\\" | "\'" | "\""
 ```
@@ -94,10 +94,12 @@ this includes all characters with ASCII codes from 32 (space) through 126 (tilde
 ```bnf
 <digit>       ::= "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
 ```
+
 ##### isSign( char c )
 ```bnf
 <sign>        ::= "+" | "-"
 ```
+
 ##### isDigitSeq( string str )
 ```bnf
 <digit-sequence> ::= <digit>+
@@ -116,6 +118,7 @@ Returns true if any of four posibilities happens
                    | <digit-sequence>? "." <digit-sequence>
                    | <digit-sequence>
 ```
+
 ##### isChar (string str)
 Returns true if length is 3 and first and last are `'` and the one in the midel is either printable or escape secuence
 
@@ -163,6 +166,101 @@ bnf<double-literal> ::= <sign>? <floating-point>
 |?|Optional|0 or 1|<sign>? → can be empty or one sign|
 |+|One or more|1 or more|<digit>+ → 5 or 42 or 123|
 |*|Zero or more|0 or more|<digit>* → empty or 5 or 42|
+
+## What i learnt
+
+I test first the big one
+
+
+![alt text](image.png)
+
+```c++
+	if ( isDouble(s) ) {
+		showDou(s) ;
+	} else if ( isFloat(s) ) {
+		showFlo(s) ;
+	} else if ( isInt(s) ) {
+		showInt(s) ;
+	} else if ( isChar(s) ) { 
+		showChr(s) ;
+	} else {
+		std::cout << "No type detected" << std::endl;
+	}
+```
+
+From each type I test if the value fits in the next smaller one
+
+### The infinity exist
+
+std::numeric_limits is a template class that provides information about the 
+properties and limits of numeric types. Gives compile-time constants for 
+min/max values, precision, and special values of any numeric type without 
+hardcoding magic numbers like INT_MAX or FLT_MAX.
+
+```c++
+double d1 = std::numeric_limits<double>::infinity();  // +inf
+double d2 = -std::numeric_limits<double>::infinity(); // -inf
+double d3 = std::numeric_limits<double>::quiet_NaN(); // nan
+
+float f1 = static_cast<float>(d1);  // +inff ✅
+float f2 = static_cast<float>(d2);  // -inff ✅
+float f3 = static_cast<float>(d3);  // nanf ✅
+```
+
+### The Rule: NaN != NaN
+NaN is NEVER equal to anything, including itself!
+```c++
+double nan1 = std::numeric_limits<double>::quiet_NaN();
+double nan2 = std::numeric_limits<double>::quiet_NaN();
+
+nan1 == nan1;  // ❌ FALSE!
+nan1 == nan2;  // ❌ FALSE!
+nan1 != nan1;  // ✅ TRUE!
+```
+
+#### How to check for NaN correctly:
+##### Method 1: Use std::isnan() ✅ (Best)
+```c++
+#include <cmath>
+
+if (std::isnan(r_dou)) {  // ✅ Correct way!
+    std::cout << "It's NaN!" << std::endl;
+}
+```
+
+##### Method 2: Self-comparison trick ✅
+```c++
+if (r_dou != r_dou) {  // ✅ Only NaN is not equal to itself!
+    std::cout << "It's NaN!" << std::endl;
+}
+```
+##### Method 3: C++98 compatible (if std::isnan unavailable) ✅
+```c++
+// In C++98, isnan might be in global namespace
+if (isnan(r_dou)) {  // Note: no std::
+    std::cout << "It's NaN!" << std::endl;
+}
+```
+
+
+### How many significants digits do i print
+
+std::setprecision() controls how many digits are displayed when printing floating-point numbers.
+
+There are two modes:
+#### 1. Default mode (general format):Precision = total significant digits
+```c++
+double d = 123.456;
+std::cout << std::setprecision(4) << d;  // "123.5" (4 significant digits)
+
+```
+
+#### 2. Fixed mode: Precision = digits after decimal point
+```c++
+double d = 123.456;
+
+std::cout << std::fixed << std::setprecision(3) << d;  // "123.456"
+```
 
 
 
