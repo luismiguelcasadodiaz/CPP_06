@@ -172,7 +172,7 @@ bnf<double-literal> ::= <sign>? <floating-point>
 I test first the big one
 
 
-![alt text](image.png)
+![alt text](./docs/image.png)
 
 ```c++
 	if ( isDouble(s) ) {
