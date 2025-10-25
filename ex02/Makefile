@@ -6,7 +6,7 @@
 #    By: luicasad <luicasad@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/30 13:07:33 by luicasad          #+#    #+#              #
-#    Updated: 2025/10/17 00:44:01 by luicasad         ###   ########.fr        #
+#    Updated: 2025/10/26 00:59:03 by luicasad         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,7 @@ DARK_YELLOW		=	\033[38;5;143m
 #                                 TARGETS                                      #
 # ============================================================================ #
 
-TARGET			= main
+TARGET			= identify
 SRCDIR			= ./
 OBJDIR 			= ./obj/
 
@@ -49,20 +49,18 @@ CFLGS			= $(DBGFL) $(WRNFL) -c
 #HEADS			= -I$(INCDIR)
 LFLGS 			= #-fsanitize=address
 
-HEADERS		=	Bureaucrat.hpp \
-				AForm.hpp \
-				PresidentialPardonForm.hpp \
-				ShrubberyCreationForm.hpp \
-				RobotomyRequestForm.hpp \
-				Intern.hpp 
+HEADERS		=	Base.hpp \
+				A.hpp \
+				B.hpp \
+				C.hpp \
+				identify.hpp
 
 SRCS_TARGET	= 	main.cpp \
-			Bureaucrat.cpp \
-			AForm.cpp \
-			PresidentialPardonForm.cpp \
-			ShrubberyCreationForm.cpp \
-			RobotomyRequestForm.cpp \
-			Intern.cpp
+			Base.cpp \
+			A.cpp \
+			B.cpp \
+			C.cpp \
+			identify.cpp
 
 
 FILE_TARGET = $(addprefix $(SRCDIR_TARGET), $(SRCS_TARGET))
