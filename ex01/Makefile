@@ -6,7 +6,7 @@
 #    By: luicasad <luicasad@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/30 13:07:33 by luicasad          #+#    #+#              #
-#    Updated: 2025/10/17 00:44:01 by luicasad         ###   ########.fr        #
+#    Updated: 2025/10/25 11:20:52 by luicasad         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,7 @@ DARK_YELLOW		=	\033[38;5;143m
 #                                 TARGETS                                      #
 # ============================================================================ #
 
-TARGET			= main
+TARGET			= serialize
 SRCDIR			= ./
 OBJDIR 			= ./obj/
 
@@ -41,28 +41,19 @@ REQUIRED_DIRS	= $(OBJDIR)
 # ============================================================================ #
 #                               COMPILER SETUP                                 #
 # ============================================================================ #
-CC 				= c++ -std=c++98
-CC 				= clang++ -std=c++98
+CC 				= g++ -std=c++98
+#CC 				= clang++ -std=c++98
 WRNFL			= -Wall -Wextra -Werror -Wshadow #-fsanitize=address
-DBGFL			= #-g3  -pg
+DBGFL			= -g3  -pg
 CFLGS			= $(DBGFL) $(WRNFL) -c 
 #HEADS			= -I$(INCDIR)
 LFLGS 			= #-fsanitize=address
 
-HEADERS		=	Bureaucrat.hpp \
-				AForm.hpp \
-				PresidentialPardonForm.hpp \
-				ShrubberyCreationForm.hpp \
-				RobotomyRequestForm.hpp \
-				Intern.hpp 
+HEADERS		=	Serializer.hpp \
+				Data.hpp
 
 SRCS_TARGET	= 	main.cpp \
-			Bureaucrat.cpp \
-			AForm.cpp \
-			PresidentialPardonForm.cpp \
-			ShrubberyCreationForm.cpp \
-			RobotomyRequestForm.cpp \
-			Intern.cpp
+				Serializer.cpp
 
 
 FILE_TARGET = $(addprefix $(SRCDIR_TARGET), $(SRCS_TARGET))
