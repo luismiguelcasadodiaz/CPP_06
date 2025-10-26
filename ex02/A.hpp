@@ -6,7 +6,7 @@
 class A : public Base
 {
 	public:
-		virtual ~A( void );
+		virtual ~A( void ) throw();
 } ;
 #endif
 

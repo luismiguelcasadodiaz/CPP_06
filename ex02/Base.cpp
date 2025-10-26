@@ -1,6 +1,7 @@
 #include "Base.hpp"
 
-Base::~Base( void ){}
+Base::~Base( void ) throw() {}
+/*
 Base::Base( void ){}
 Base::Base( const Base & other )
 { 
@@ -11,3 +12,5 @@ Base & Base::operator=( const Base & other )
 	(void)other;
 	return *this;
 }
+*/
+

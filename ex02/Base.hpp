@@ -4,7 +4,7 @@
 class Base
 {
 	public:
-		virtual ~Base( void );
+		virtual ~Base( void ) throw();
 /*	private:
 		Base( void );
 		Base( const Base & other );
