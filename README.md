@@ -262,6 +262,27 @@ double d = 123.456;
 std::cout << std::fixed << std::setprecision(3) << d;  // "123.456"
 ```
 
+### Persitent outpout manipulators stick until changed
+
+Persistent stream manipulators:
+
+✅ std::hex, std::dec, std::oct (number base)
+
+✅ std::fixed, std::scientific (float format)
+
+✅ std::setprecision(n) (decimal places)
+
+✅ std::setw(n) (field width) - EXCEPTION: only affects next item!
+
+✅ std::setfill(c) (fill character)
+
+✅ std::showpos, std::noshowpos (show + sign)
+
+✅ std::uppercase, std::nouppercase (case for hex/scientific)
+
+
+### reset all formating to default
+std::cout.copyfmt(std::ios(NULL));  // Reset all formatting to defaults
 
 
 # what i read
